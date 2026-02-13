@@ -148,20 +148,21 @@ defineEmits<{
 .day-labels {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 10px;
   margin-bottom: 6px;
   padding: 0;
 }
 
 .day-label-spacer {
-  min-width: 60px;
-  max-width: 80px;
+  width: 50px;
+  min-width: 50px;
+  max-width: 50px;
   flex-shrink: 0;
 }
 
 .day-labels-grid {
   display: flex;
-  gap: 4px;
+  gap: 5px;
   flex: 1;
 }
 
@@ -171,8 +172,6 @@ defineEmits<{
   color: #6e7681;
   text-align: center;
   flex: 1;
-  min-width: 24px;
-  max-width: 48px;
   letter-spacing: 0.3px;
 }
 
@@ -203,18 +202,22 @@ defineEmits<{
     min-height: 24px;
   }
 
+  .day-labels {
+    gap: 12px;
+  }
+
   .day-label-spacer {
+    width: 70px;
     min-width: 70px;
-    max-width: 90px;
+    max-width: 70px;
   }
 
   .day-labels-grid {
-    gap: 5px;
+    gap: 6px;
   }
 
   .day-label {
     font-size: 10px;
-    max-width: 50px;
   }
 }
 
@@ -234,6 +237,7 @@ defineEmits<{
 
   .day-labels {
     margin-bottom: 8px;
+    gap: 14px;
   }
 
   .day-label-spacer {
