@@ -112,13 +112,24 @@ const emit = defineEmits<{
 
 const fileInput = ref<HTMLInputElement | null>(null);
 
+// Colorful palette (commented out - using blue scale instead)
+// const colors = [
+//   '#6b9bd1', // medium blue
+//   '#88c0d0', // ice blue
+//   '#8fbc8f', // sage green
+//   '#e5c07b', // warm yellow
+//   '#d9a5b3', // soft pink
+//   '#c97676', // coral red
+// ];
+
+// Blue scale palette (light to dark)
 const colors = [
-  '#6b9bd1', // medium blue
+  '#c2e3f0', // lightest blue
+  '#a5d4e5', // light blue
   '#88c0d0', // ice blue
-  '#8fbc8f', // sage green
-  '#e5c07b', // warm yellow
-  '#d9a5b3', // soft pink
-  '#c97676', // coral red
+  '#6b9bd1', // medium blue
+  '#5b7a9c', // dark blue
+  '#4a5e7a', // darkest blue-grey
 ];
 
 const formData = ref({

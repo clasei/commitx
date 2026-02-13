@@ -308,7 +308,10 @@ export async function getDailyStreaks(habitId: string) {
     .map(e => e.dateKey)
     .sort((a, b) => a.localeCompare(b))
     .map(dateKey => {
-      const [year, month, day] = dateKey.split('-').map(Number);
+      const parts = dateKey.split('-').map(Number);
+      const year = parts[0] ?? 0;
+      const month = parts[1] ?? 1;
+      const day = parts[2] ?? 1;
       return new Date(year, month - 1, day);
     });
 
@@ -326,6 +329,8 @@ export async function getDailyStreaks(habitId: string) {
   for (let i = 1; i < uniqueDates.length; i++) {
     const prevDate = uniqueDates[i - 1];
     const currDate = uniqueDates[i];
+
+    if (!prevDate || !currDate) continue;
 
     // Check if dates are consecutive (difference of 1 day)
     const diffTime = currDate.getTime() - prevDate.getTime();
