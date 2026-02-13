@@ -105,7 +105,7 @@ async function onToggle(habitId: string, dateKey: string) {
 }
 
 .habit-name {
-  font-size: 9px;
+  font-size: 12px;
   font-weight: 500;
   white-space: nowrap;
   overflow: hidden;

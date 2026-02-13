@@ -167,7 +167,7 @@ defineEmits<{
 }
 
 .day-label {
-  font-size: 9px;
+  font-size: 13px;
   font-weight: 600;
   color: #6e7681;
   text-align: center;

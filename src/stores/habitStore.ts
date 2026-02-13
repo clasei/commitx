@@ -76,9 +76,9 @@ export async function initializeApp() {
 
   // seed sample habits if empty
   if (habits.value.length === 0) {
-    await createHabit('workout', 3, '#a3be8c');
-    await createHabit('read', 5, '#88c0d0');
-    await createHabit('code', 2, '#b48ead');
+    await createHabit('workout', 3, '#88c0d0'); // ice blue
+    await createHabit('read', 5, '#6b9bd1'); // medium blue
+    await createHabit('code', 2, '#5b7a9c'); // dark blue
   }
 
   await loadEntriesForWeek(activeWeekStart.value);
