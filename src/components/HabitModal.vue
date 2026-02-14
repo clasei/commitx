@@ -92,7 +92,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { ref, watch, computed } from 'vue';
 import { X, Upload } from 'lucide-vue-next';
 
 const props = defineProps<{
@@ -112,18 +112,21 @@ const emit = defineEmits<{
 
 const fileInput = ref<HTMLInputElement | null>(null);
 
-// Colorful palette (commented out - using blue scale instead)
-// const colors = [
-//   '#6b9bd1', // medium blue
-//   '#88c0d0', // ice blue
-//   '#8fbc8f', // sage green
-//   '#e5c07b', // warm yellow
-//   '#d9a5b3', // soft pink
-//   '#c97676', // coral red
-// ];
+// Load monochrome preference from localStorage
+const isMonochromeMode = ref(localStorage.getItem('commitx-monochrome') === 'true');
+
+// Colorful palette
+const colorfulPalette = [
+  '#6b9bd1', // medium blue
+  '#88c0d0', // ice blue
+  '#8fbc8f', // sage green
+  '#e5c07b', // warm yellow
+  '#d9a5b3', // soft pink
+  '#c97676', // coral red
+];
 
 // Blue scale palette (light to dark)
-const colors = [
+const bluePalette = [
   '#c2e3f0', // lightest blue
   '#a5d4e5', // light blue
   '#88c0d0', // ice blue
@@ -132,27 +135,35 @@ const colors = [
   '#4a5e7a', // darkest blue-grey
 ];
 
+// Active colors based on mode
+const colors = computed(() => {
+  return isMonochromeMode.value ? bluePalette : colorfulPalette;
+});
+
 const formData = ref({
   name: '',
   targetPerWeek: 3,
-  color: colors[0]
+  color: colors.value[0]
 });
 
 watch(() => props.isOpen, (isOpen) => {
   if (isOpen) {
+    // Reload monochrome mode preference when modal opens
+    isMonochromeMode.value = localStorage.getItem('commitx-monochrome') === 'true';
+
     if (props.editMode && props.habitData) {
       // Edit mode: populate with existing data
       formData.value = {
         name: props.habitData.name,
         targetPerWeek: props.habitData.targetPerWeek,
-        color: props.habitData.color || colors[0]
+        color: props.habitData.color || colors.value[0]
       };
     } else {
       // Create mode: reset to defaults
       formData.value = {
         name: '',
         targetPerWeek: 3,
-        color: colors[0]
+        color: colors.value[0]
       };
     }
   }

@@ -2,8 +2,13 @@
   <div class="app">
     <header class="app-header">
       <h1 class="app-title">commitx</h1>
-      <button class="monochrome-toggle" @click="toggleMonochrome" aria-label="Toggle monochrome mode">
-        <Palette :size="20" />
+      <button
+        class="monochrome-toggle"
+        :class="{ 'is-active': isMonochromeMode }"
+        @click="toggleMonochrome"
+        :aria-label="isMonochromeMode ? 'Switch to colorful mode' : 'Switch to monochrome mode'"
+      >
+        <Bolt :size="15" />
       </button>
     </header>
 
@@ -82,7 +87,7 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
-import { Target, Palette } from 'lucide-vue-next';
+import { Target, Minus, Bolt } from 'lucide-vue-next';
 import WeekHeader from './components/WeekHeader.vue';
 import HabitRow from './components/HabitRow.vue';
 import HabitModal from './components/HabitModal.vue';
@@ -110,6 +115,11 @@ const showAddModal = ref(false);
 const showEditModal = ref(false);
 const showStatsModal = ref(false);
 const editingHabit = ref<{ id: string; name: string; targetPerWeek: number; color?: string } | null>(null);
+
+// Check current monochrome mode
+const isMonochromeMode = computed(() => {
+  return localStorage.getItem('commitx-monochrome') === 'true';
+});
 
 // Touch swipe support
 let touchStartX = 0;
@@ -143,11 +153,65 @@ function handleSwipe() {
   }
 }
 
-function toggleMonochrome() {
+async function toggleMonochrome() {
   const currentMode = localStorage.getItem('commitx-monochrome') === 'true';
-  localStorage.setItem('commitx-monochrome', String(!currentMode));
-  // Reload to apply changes across all components
-  window.location.reload();
+  const newMode = !currentMode;
+
+  // Define both palettes
+  const colorfulPalette = [
+    '#6b9bd1', // medium blue
+    '#88c0d0', // ice blue
+    '#8fbc8f', // sage green
+    '#e5c07b', // warm yellow
+    '#d9a5b3', // soft pink
+    '#c97676', // coral red
+  ];
+
+  const bluePalette = [
+    '#c2e3f0', // lightest blue
+    '#a5d4e5', // light blue
+    '#88c0d0', // ice blue
+    '#6b9bd1', // medium blue
+    '#5b7a9c', // dark blue
+    '#4a5e7a', // darkest blue-grey
+  ];
+
+  const fromPalette = currentMode ? bluePalette : colorfulPalette;
+  const toPalette = currentMode ? colorfulPalette : bluePalette;
+
+  // Function to find closest color match in palette
+  function findClosestColorIndex(color: string, palette: string[]): number {
+    const index = palette.findIndex(c => c.toLowerCase() === color.toLowerCase());
+    if (index !== -1) return index;
+
+    // If exact match not found, try to find closest by comparing hex values
+    // For simplicity, default to first color
+    return 0;
+  }
+
+  // Update all existing habits to new palette
+  try {
+    const allHabits = habits.value;
+
+    for (const habit of allHabits) {
+      if (habit.color) {
+        const currentIndex = findClosestColorIndex(habit.color, fromPalette);
+        const newColor = toPalette[currentIndex];
+
+        // Update habit color in database
+        await updateHabit(habit.id, habit.name, habit.targetPerWeek, newColor);
+      }
+    }
+
+    // Save new mode preference
+    localStorage.setItem('commitx-monochrome', String(newMode));
+
+    // Reload to apply changes across all components
+    window.location.reload();
+  } catch (error) {
+    console.error('Error converting palette:', error);
+    alert('Failed to switch palette. Please try again.');
+  }
 }
 
 const yearData = ref<Array<{
@@ -289,28 +353,42 @@ body {
 
 .app-title {
   font-size: 20px;
-  font-weight: 600;
-  color: #e6edf3;
-  letter-spacing: -0.5px;
+  font-weight: 400;
+  color: #9da7b3;
+  letter-spacing: 2px;
+  text-transform: lowercase;
 }
 
 .monochrome-toggle {
-  background: transparent;
-  border: 1px solid #30363d;
-  border-radius: 8px;
-  color: #9da7b3;
+  background: #6e7681;
+  border: 1px solid #6e7681;
+  border-radius: 4px;
+  color: #0d1117;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 8px;
+  padding: 3px;
+  min-width: 20px;
+  min-height: 20px;
   transition: all 0.2s ease;
 }
 
 .monochrome-toggle:hover {
-  background: #21262d;
+  background: #8b949e;
+  border-color: #8b949e;
+}
+
+.monochrome-toggle.is-active {
+  background: #0d1117;
+  border-color: #30363d;
+  color: #9da7b3;
+}
+
+.monochrome-toggle.is-active:hover {
+  background: #161b22;
   border-color: #484f58;
-  color: #e6edf3;
+  color: #c9d1d9;
 }
 
 .monochrome-toggle:active {

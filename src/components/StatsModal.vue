@@ -260,7 +260,7 @@ watch(() => props.habits, (newHabits) => {
 
 .stats-summary {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: 12px;
   margin-bottom: 24px;
 }

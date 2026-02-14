@@ -74,11 +74,11 @@ export async function initializeApp() {
   activeWeekStart.value = getWeekStart(new Date());
   await loadHabits();
 
-  // seed sample habits if empty
+  // seed sample habits if empty - using colorful palette
   if (habits.value.length === 0) {
-    await createHabit('workout', 3, '#88c0d0'); // ice blue
-    await createHabit('read', 5, '#6b9bd1'); // medium blue
-    await createHabit('code', 2, '#5b7a9c'); // dark blue
+    await createHabit('workout', 3, '#88c0d0'); // ice blue (position 1)
+    await createHabit('read', 5, '#8fbc8f'); // sage green (position 2)
+    await createHabit('code', 2, '#e5c07b'); // warm yellow (position 3)
   }
 
   await loadEntriesForWeek(activeWeekStart.value);

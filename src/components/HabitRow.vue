@@ -73,6 +73,7 @@ async function onToggle(habitId: string, dateKey: string) {
 .habit-row {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 12px;
   padding: 6px 0;
 }

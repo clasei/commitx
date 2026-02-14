@@ -148,6 +148,7 @@ defineEmits<{
 .day-labels {
   display: flex;
   align-items: center;
+  justify-content: center;
   margin-bottom: 10px;
   padding: 0;
 }
