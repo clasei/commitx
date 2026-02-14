@@ -337,14 +337,14 @@ body {
 
 .app {
   min-height: 100vh;
-  padding: 48px 16px 16px;
+  padding: 32px 4px 4px;
   max-width: 100vw;
   overflow-x: hidden;
 }
 
 .app-header {
   max-width: 640px;
-  margin: 0 auto 32px;
+  margin: 0 auto 40px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -406,7 +406,7 @@ body {
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(48, 54, 61, 0.5);
   border-radius: 16px;
-  padding: 20px 16px;
+  padding: 12px 16px 20px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
   touch-action: pan-x;
   user-select: none;
@@ -486,7 +486,7 @@ body {
 
 @media (min-width: 640px) {
   .app {
-    padding: 8px;
+    padding: 16px;
   }
 
   .container {
@@ -502,6 +502,10 @@ body {
 @media (min-width: 1024px) {
   .container {
     max-width: 800px;
+  }
+
+  .app-header {
+    margin-bottom: 50px;
   }
 }
 </style>

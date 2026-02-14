@@ -75,7 +75,7 @@ defineEmits<{
   justify-content: space-between;
   align-items: center;
   padding: 4px 0;
-  margin-bottom: 16px;
+  margin-bottom: 32px;
 }
 
 .week-nav {
@@ -148,7 +148,6 @@ defineEmits<{
 .day-labels {
   display: flex;
   align-items: center;
-  justify-content: center;
   margin-bottom: 10px;
   padding: 0;
 }
@@ -183,7 +182,7 @@ defineEmits<{
 @media (min-width: 640px) {
   .week-header {
     padding: 10px 0;
-    margin-bottom: 10px;
+    margin-bottom: 32px;
   }
 
   .week-nav {
@@ -211,7 +210,7 @@ defineEmits<{
 @media (min-width: 1024px) {
   .week-header {
     padding: 14px 0;
-    margin-bottom: 12px;
+    margin-bottom: 40px;
   }
 
   .week-info {
@@ -220,6 +219,10 @@ defineEmits<{
 
   .week-title {
     font-size: 15px;
+  }
+
+  .day-labels-grid {
+    gap: 20px;
   }
 }
 </style>
