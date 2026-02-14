@@ -312,7 +312,8 @@ function handleFileSelect(event: Event) {
   gap: 8px;
   justify-content: space-between;
   align-items: center;
-  padding-top: 8px;
+  padding-top: 16px;
+  margin-top: 8px;
 }
 
 .form-actions-right {

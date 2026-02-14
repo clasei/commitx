@@ -2,7 +2,7 @@
   <button
     class="day-cell"
     :class="{ 'is-done': isDone, 'is-today': isToday }"
-    :style="isDone && iconColor ? { backgroundColor: iconColor, borderColor: iconColor } : {}"
+    :style="isDone && iconColor ? { backgroundColor: iconColor, borderColor: iconColor, borderRadius: '4px' } : {}"
     @click="$emit('toggle')"
     :aria-label="`Toggle ${dayLabel}`"
   >
@@ -26,10 +26,10 @@ defineEmits<{
 .day-cell {
   width: 100%;
   aspect-ratio: 1;
-  max-width: 32px;
+  max-width: 24px;
   background: #161b22;
   border: 1px solid #30363d;
-  border-radius: 2px;
+  border-radius: 8px;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -49,7 +49,7 @@ defineEmits<{
 }
 
 .day-cell.is-today {
-  border-color: #58a6ff;
+  border-color: #6e7681;
   border-width: 2px;
 }
 
@@ -61,23 +61,4 @@ defineEmits<{
 .day-cell.is-done:hover {
   opacity: 0.85;
 }
-
-@media (min-width: 640px) {
-  .day-cell {
-    max-width: 48px;
-    border-radius: 3px;
-  }
-}
-
-@media (min-width: 1024px) {
-  .day-cell {
-    max-width: 52px;
-  }
-}
 </style>
-
-
-
-
-
-

@@ -73,23 +73,24 @@ async function onToggle(habitId: string, dateKey: string) {
 .habit-row {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   padding: 6px 0;
 }
 
 .habit-label {
-  width: 50px;
-  min-width: 50px;
-  max-width: 50px;
-  height: 24px;
+  width: 70px;
+  //min-width: 62px;
+  //max-width: 62px;
+  height: 28px;
   border-radius: 4px;
   display: flex;
+  margin-right: 10px;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
   background: #21262d;
   transition: all 0.2s ease;
-  padding: 0 6px;
+  padding: 0 8px;
   border: none;
   cursor: pointer;
   font-family: inherit;
@@ -106,7 +107,7 @@ async function onToggle(habitId: string, dateKey: string) {
 
 .habit-name {
   font-size: 12px;
-  font-weight: 500;
+  font-weight: 600;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -117,54 +118,8 @@ async function onToggle(habitId: string, dateKey: string) {
 
 .habit-grid {
   display: flex;
-  gap: 5px;
+  gap: 16px;
   flex: 1;
-}
-
-@media (min-width: 640px) {
-  .habit-row {
-    gap: 12px;
-  }
-
-  .habit-label {
-    width: 70px;
-    min-width: 70px;
-    max-width: 70px;
-    height: 28px;
-    border-radius: 5px;
-    padding: 0 8px;
-  }
-
-  .habit-name {
-    font-size: 11px;
-  }
-
-  .habit-grid {
-    gap: 6px;
-  }
-}
-
-@media (min-width: 1024px) {
-  .habit-row {
-    gap: 14px;
-  }
-
-  .habit-label {
-    width: 80px;
-    min-width: 80px;
-    max-width: 80px;
-    height: 32px;
-    border-radius: 6px;
-    padding: 0 10px;
-  }
-
-  .habit-name {
-    font-size: 12px;
-  }
-
-  .habit-grid {
-    gap: 8px;
-  }
 }
 </style>
 

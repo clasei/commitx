@@ -42,9 +42,9 @@
   <div class="day-labels">
     <div class="day-label-spacer"></div>
     <div class="day-labels-grid">
-      <span v-for="day in weekDays" :key="toDateKey(day)" class="day-label">
-        {{ getDayLabel(day) }}
-      </span>
+      <div v-for="day in weekDays" :key="toDateKey(day)" class="day-label-container">
+        <span class="day-label">{{ getDayLabel(day) }}</span>
+      </div>
     </div>
   </div>
 </template>
@@ -89,12 +89,12 @@ defineEmits<{
   display: flex;
   align-items: center;
   gap: 4px;
-  min-width: 100px;
+  min-width: 150px;
   justify-content: center;
 }
 
 .week-title {
-  font-size: 9px;
+  font-size: 14px;
   font-weight: 600;
   color: #c9d1d9;
   margin: 0;
@@ -148,22 +148,27 @@ defineEmits<{
 .day-labels {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 6px;
+  margin-bottom: 10px;
   padding: 0;
 }
 
 .day-label-spacer {
-  width: 50px;
-  min-width: 50px;
-  max-width: 50px;
+  width: 70px;
+  margin-right: 22px;
   flex-shrink: 0;
 }
 
 .day-labels-grid {
   display: flex;
-  gap: 5px;
+  gap: 16px;
   flex: 1;
+}
+
+.day-label-container {
+  width: 24px;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
 }
 
 .day-label {
@@ -171,7 +176,6 @@ defineEmits<{
   font-weight: 600;
   color: #6e7681;
   text-align: center;
-  flex: 1;
   letter-spacing: 0.3px;
 }
 
@@ -201,24 +205,6 @@ defineEmits<{
     min-width: 24px;
     min-height: 24px;
   }
-
-  .day-labels {
-    gap: 12px;
-  }
-
-  .day-label-spacer {
-    width: 70px;
-    min-width: 70px;
-    max-width: 70px;
-  }
-
-  .day-labels-grid {
-    gap: 6px;
-  }
-
-  .day-label {
-    font-size: 10px;
-  }
 }
 
 @media (min-width: 1024px) {
@@ -233,25 +219,6 @@ defineEmits<{
 
   .week-title {
     font-size: 15px;
-  }
-
-  .day-labels {
-    margin-bottom: 8px;
-    gap: 14px;
-  }
-
-  .day-label-spacer {
-    width: 80px;
-    min-width: 80px;
-    max-width: 80px;
-  }
-
-  .day-labels-grid {
-    gap: 8px;
-  }
-
-  .day-label {
-    font-size: 11px;
   }
 }
 </style>

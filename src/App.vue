@@ -1,38 +1,51 @@
 <template>
   <div class="app">
+    <header class="app-header">
+      <h1 class="app-title">commitx</h1>
+      <button class="monochrome-toggle" @click="toggleMonochrome" aria-label="Toggle monochrome mode">
+        <Palette :size="20" />
+      </button>
+    </header>
+
     <div class="container">
-      <WeekHeader
-        :weekTitle="weekTitle"
-        :weekDays="currentWeekDays"
-        :isCurrentWeek="isCurrentWeek"
-        @prev="handlePrevWeek"
-        @next="handleNextWeek"
-        @today="handleToday"
-        @add="showAddModal = true"
-        @menu="handleExport"
-        @stats="handleShowStats"
-      />
-
-      <div v-if="isLoading" class="loading">
-        loading...
-      </div>
-
-      <div v-else-if="habits.length === 0" class="empty-state">
-        <div class="empty-content">
-          <Target :size="48" :stroke-width="1.5" />
-          <h2>no habits yet</h2>
-          <p>tap the + button to create your first habit</p>
-        </div>
-      </div>
-
-      <div v-else class="habits-grid">
-        <HabitRow
-          v-for="habit in habits"
-          :key="habit.id"
-          :habit="habit"
+      <div
+        class="main-panel"
+        @touchstart="handleTouchStart"
+        @touchend="handleTouchEnd"
+      >
+        <WeekHeader
+          :weekTitle="weekTitle"
           :weekDays="currentWeekDays"
-          @edit="handleEditHabit"
+          :isCurrentWeek="isCurrentWeek"
+          @prev="handlePrevWeek"
+          @next="handleNextWeek"
+          @today="handleToday"
+          @add="showAddModal = true"
+          @menu="handleExport"
+          @stats="handleShowStats"
         />
+
+        <div v-if="isLoading" class="loading">
+          loading...
+        </div>
+
+        <div v-else-if="habits.length === 0" class="empty-state">
+          <div class="empty-content">
+            <Target :size="48" :stroke-width="1.5" />
+            <h2>no habits yet</h2>
+            <p>tap the + button to create your first habit</p>
+          </div>
+        </div>
+
+        <div v-else class="habits-grid">
+          <HabitRow
+            v-for="habit in habits"
+            :key="habit.id"
+            :habit="habit"
+            :weekDays="currentWeekDays"
+            @edit="handleEditHabit"
+          />
+        </div>
       </div>
     </div>
 
@@ -69,7 +82,7 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
-import { Target } from 'lucide-vue-next';
+import { Target, Palette } from 'lucide-vue-next';
 import WeekHeader from './components/WeekHeader.vue';
 import HabitRow from './components/HabitRow.vue';
 import HabitModal from './components/HabitModal.vue';
@@ -97,6 +110,46 @@ const showAddModal = ref(false);
 const showEditModal = ref(false);
 const showStatsModal = ref(false);
 const editingHabit = ref<{ id: string; name: string; targetPerWeek: number; color?: string } | null>(null);
+
+// Touch swipe support
+let touchStartX = 0;
+let touchEndX = 0;
+
+function handleTouchStart(e: TouchEvent) {
+  if (e.changedTouches[0]) {
+    touchStartX = e.changedTouches[0].screenX;
+  }
+}
+
+function handleTouchEnd(e: TouchEvent) {
+  if (e.changedTouches[0]) {
+    touchEndX = e.changedTouches[0].screenX;
+    handleSwipe();
+  }
+}
+
+function handleSwipe() {
+  const swipeThreshold = 50; // minimum distance for swipe
+  const diff = touchStartX - touchEndX;
+
+  if (Math.abs(diff) > swipeThreshold) {
+    if (diff > 0) {
+      // Swiped left - go to next week
+      handleNextWeek();
+    } else {
+      // Swiped right - go to previous week
+      handlePrevWeek();
+    }
+  }
+}
+
+function toggleMonochrome() {
+  const currentMode = localStorage.getItem('commitx-monochrome') === 'true';
+  localStorage.setItem('commitx-monochrome', String(!currentMode));
+  // Reload to apply changes across all components
+  window.location.reload();
+}
+
 const yearData = ref<Array<{
   habitId: string;
   weeks: Array<{
@@ -220,14 +273,66 @@ body {
 
 .app {
   min-height: 100vh;
-  padding: 0;
+  padding: 32px 16px 16px;
   max-width: 100vw;
   overflow-x: hidden;
+}
+
+.app-header {
+  max-width: 640px;
+  margin: 0 auto 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 8px;
+}
+
+.app-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #e6edf3;
+  letter-spacing: -0.5px;
+}
+
+.monochrome-toggle {
+  background: transparent;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  color: #9da7b3;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  transition: all 0.2s ease;
+}
+
+.monochrome-toggle:hover {
+  background: #21262d;
+  border-color: #484f58;
+  color: #e6edf3;
+}
+
+.monochrome-toggle:active {
+  transform: scale(0.95);
 }
 
 .container {
   max-width: 100%;
   margin: 0 auto;
+}
+
+.main-panel {
+  background: rgba(22, 27, 34, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(48, 54, 61, 0.5);
+  border-radius: 16px;
+  padding: 20px 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  touch-action: pan-x;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .menu-panel {
@@ -298,7 +403,7 @@ body {
 .habits-grid {
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 0;
 }
 
 @media (min-width: 640px) {
@@ -310,10 +415,6 @@ body {
     max-width: 640px;
   }
 
-  .habits-grid {
-    gap: 4px;
-  }
-
   .menu-panel {
     padding: 8px;
     margin-bottom: 20px;
@@ -323,10 +424,6 @@ body {
 @media (min-width: 1024px) {
   .container {
     max-width: 800px;
-  }
-
-  .habits-grid {
-    gap: 15px;
   }
 }
 </style>
