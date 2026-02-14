@@ -80,8 +80,6 @@ async function onToggle(habitId: string, dateKey: string) {
 
 .habit-label {
   width: 70px;
-  //min-width: 62px;
-  //max-width: 62px;
   height: 28px;
   border-radius: 4px;
   display: flex;
