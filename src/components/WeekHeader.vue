@@ -39,13 +39,16 @@
     </div>
   </div>
 
-  <div class="day-labels">
-    <div class="day-label-spacer"></div>
-    <div class="day-labels-grid">
-      <div v-for="day in weekDays" :key="toDateKey(day)" class="day-label-container">
-        <span class="day-label">{{ getDayLabel(day) }}</span>
+  <div class="habits-content-wrapper">
+    <div class="day-labels">
+      <div class="day-label-spacer"></div>
+      <div class="day-labels-grid">
+        <div v-for="day in weekDays" :key="toDateKey(day)" class="day-label-container">
+          <span class="day-label">{{ getDayLabel(day) }}</span>
+        </div>
       </div>
     </div>
+    <slot name="habits-content"></slot>
   </div>
 </template>
 
@@ -165,7 +168,7 @@ defineEmits<{
 }
 
 .day-label-container {
-  width: 24px;
+  width: 28px;
   flex-shrink: 0;
   display: flex;
   justify-content: center;

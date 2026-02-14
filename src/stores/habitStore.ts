@@ -76,7 +76,7 @@ export async function initializeApp() {
 
   // seed sample habits if empty - using colorful palette
   if (habits.value.length === 0) {
-    await createHabit('workout', 3, '#88c0d0'); // ice blue (position 1)
+    await createHabit('run', 3, '#88c0d0'); // ice blue (position 1)
     await createHabit('read', 5, '#8fbc8f'); // sage green (position 2)
     await createHabit('code', 2, '#e5c07b'); // warm yellow (position 3)
   }

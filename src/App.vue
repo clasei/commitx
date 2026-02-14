@@ -338,6 +338,7 @@ body {
 .app {
   min-height: 100vh;
   padding: 32px 4px 4px;
+  padding-top: max(32px, env(safe-area-inset-top));
   max-width: 100vw;
   overflow-x: hidden;
 }

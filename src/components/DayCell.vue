@@ -26,7 +26,7 @@ defineEmits<{
 .day-cell {
   width: 100%;
   aspect-ratio: 1;
-  max-width: 24px;
+  max-width: 28px;
   background: #161b22;
   border: 1px solid #30363d;
   border-radius: 8px;
