@@ -87,7 +87,7 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
-import { Target, Minus, Bolt } from 'lucide-vue-next';
+import { Target, Bolt } from 'lucide-vue-next';
 import WeekHeader from './components/WeekHeader.vue';
 import HabitRow from './components/HabitRow.vue';
 import HabitModal from './components/HabitModal.vue';
