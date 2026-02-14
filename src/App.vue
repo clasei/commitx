@@ -2,15 +2,39 @@
   <div class="app">
     <header class="app-header">
       <h1 class="app-title">commitx</h1>
-      <button
-        class="monochrome-toggle"
-        :class="{ 'is-active': isMonochromeMode }"
-        @click="toggleMonochrome"
-        :aria-label="isMonochromeMode ? 'Switch to colorful mode' : 'Switch to monochrome mode'"
-      >
-        <Bolt :size="15" />
-      </button>
+      <div class="header-actions">
+        <button
+          class="header-btn header-btn-transparent"
+          @click="handleImportClick"
+          aria-label="Import data"
+        >
+          <Upload :size="15" />
+        </button>
+        <button
+          class="header-btn header-btn-transparent"
+          @click="handleExport"
+          aria-label="Export data"
+        >
+          <Download :size="15" />
+        </button>
+        <button
+          class="header-btn"
+          :class="{ 'is-active': isMonochromeMode }"
+          @click="toggleMonochrome"
+          :aria-label="isMonochromeMode ? 'Switch to colorful mode' : 'Switch to monochrome mode'"
+        >
+          <Zap :size="15" />
+        </button>
+      </div>
     </header>
+
+    <input
+      ref="importFileInput"
+      type="file"
+      accept="application/json"
+      style="display: none"
+      @change="handleFileImport"
+    />
 
     <div class="container">
       <div
@@ -26,7 +50,6 @@
           @next="handleNextWeek"
           @today="handleToday"
           @add="showAddModal = true"
-          @menu="handleExport"
           @stats="handleShowStats"
         />
 
@@ -87,7 +110,7 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
-import { Target, Bolt } from 'lucide-vue-next';
+import { Target, Zap, Upload, Download } from 'lucide-vue-next';
 import WeekHeader from './components/WeekHeader.vue';
 import HabitRow from './components/HabitRow.vue';
 import HabitModal from './components/HabitModal.vue';
@@ -115,6 +138,7 @@ const showAddModal = ref(false);
 const showEditModal = ref(false);
 const showStatsModal = ref(false);
 const editingHabit = ref<{ id: string; name: string; targetPerWeek: number; color?: string } | null>(null);
+const importFileInput = ref<HTMLInputElement | null>(null);
 
 // Check current monochrome mode
 const isMonochromeMode = computed(() => {
@@ -280,6 +304,25 @@ function handleExport() {
   exportData();
 }
 
+function handleImportClick() {
+  importFileInput.value?.click();
+}
+
+async function handleFileImport(event: Event) {
+  const target = event.target as HTMLInputElement;
+  const file = target.files?.[0];
+  if (file) {
+    const result = await importData(file);
+    if (result.success) {
+      alert(result.message);
+    } else {
+      alert(`Import failed: ${result.message}`);
+    }
+    // Reset input
+    target.value = '';
+  }
+}
+
 async function handleImportData(file: File) {
   const result = await importData(file);
   if (result.success) {
@@ -337,15 +380,15 @@ body {
 
 .app {
   min-height: 100vh;
-  padding: 32px 4px 4px;
-  padding-top: max(32px, env(safe-area-inset-top));
+  padding: 40px 4px 4px;
+  padding-top: max(40px, env(safe-area-inset-top));
   max-width: 100vw;
   overflow-x: hidden;
 }
 
 .app-header {
   max-width: 640px;
-  margin: 0 auto 40px;
+  margin: 0 auto 48px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -360,39 +403,61 @@ body {
   text-transform: lowercase;
 }
 
-.monochrome-toggle {
-  background: #6e7681;
-  border: 1px solid #6e7681;
+.header-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.header-btn {
+  background: transparent;
+  border: 1px solid #30363d;
   border-radius: 4px;
-  color: #0d1117;
+  color: #9da7b3;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 3px;
-  min-width: 20px;
-  min-height: 20px;
+  padding: 2px;
+  min-width: 28px;
+  min-height: 28px;
   transition: all 0.2s ease;
 }
 
-.monochrome-toggle:hover {
-  background: #8b949e;
-  border-color: #8b949e;
-}
-
-.monochrome-toggle.is-active {
-  background: #0d1117;
-  border-color: #30363d;
+.header-btn-transparent {
+  background: transparent;
+  border: none;
   color: #9da7b3;
+  min-width: auto;
+  min-height: auto;
+  padding: 2px;
 }
 
-.monochrome-toggle.is-active:hover {
-  background: #161b22;
-  border-color: #484f58;
+.header-btn-transparent:hover {
+  background: transparent;
+  border: none;
   color: #c9d1d9;
 }
 
-.monochrome-toggle:active {
+.header-btn:hover {
+  background: transparent;
+  color: #c9d1d9;
+}
+
+.header-btn.is-active {
+  background: transparent;
+  color: #6e7681;
+  fill: #6e7681;
+}
+
+.header-btn.is-active:hover {
+  background: transparent;
+  border-color: #8b949e;
+  color: #8b949e;
+  fill: #8b949e;
+}
+
+.header-btn:active {
   transform: scale(0.95);
 }
 

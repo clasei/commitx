@@ -78,7 +78,7 @@ async function onToggle(habitId: string, dateKey: string) {
 }
 
 .habit-label {
-  width: 70px;
+  width: 85px;
   height: 28px;
   border-radius: 4px;
   display: flex;

@@ -2,7 +2,7 @@
   <button
     class="day-cell"
     :class="{ 'is-done': isDone, 'is-today': isToday }"
-    :style="isDone && iconColor ? { backgroundColor: iconColor, borderColor: iconColor, borderRadius: '4px' } : {}"
+    :style="isDone && iconColor ? { backgroundColor: iconColor, borderColor: iconColor, borderRadius: '10px' } : {}"
     @click="$emit('toggle')"
     :aria-label="`Toggle ${dayLabel}`"
   >
@@ -29,7 +29,7 @@ defineEmits<{
   max-width: 28px;
   background: #161b22;
   border: 1px solid #30363d;
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
   display: flex;
   align-items: center;

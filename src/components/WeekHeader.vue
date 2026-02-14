@@ -29,10 +29,6 @@
         <BarChart3 :size="16" />
       </button>
 
-      <button class="action-btn" @click="$emit('menu')" aria-label="Export data">
-        <Download :size="16" />
-      </button>
-
       <button class="action-btn" @click="$emit('add')" aria-label="Add habit">
         <Plus :size="16" />
       </button>
@@ -53,7 +49,7 @@
 </template>
 
 <script setup lang="ts">
-import { ChevronLeft, ChevronRight, Plus, Download, Circle, BarChart3 } from 'lucide-vue-next';
+import { ChevronLeft, ChevronRight, Plus, Circle, BarChart3 } from 'lucide-vue-next';
 import { toDateKey, getDayLabel } from '../utils/dateUtils';
 
 defineProps<{
@@ -156,7 +152,7 @@ defineEmits<{
 }
 
 .day-label-spacer {
-  width: 70px;
+  width: 85px;
   margin-right: 22px;
   flex-shrink: 0;
 }
@@ -201,7 +197,7 @@ defineEmits<{
   }
 
   .week-actions {
-    gap: 8px;
+    gap: 12px;
   }
 
   .nav-arrow {
