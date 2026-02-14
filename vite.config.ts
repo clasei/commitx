@@ -6,9 +6,11 @@ export default defineConfig({
   base: '/',
   plugins: [vue()],
   build: {
+    outDir: 'dist',
+    assetsDir: 'assets',
     rollupOptions: {
-      input: {
-        main: './index.html',
+      output: {
+        manualChunks: undefined
       }
     }
   },

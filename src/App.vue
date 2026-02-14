@@ -337,14 +337,14 @@ body {
 
 .app {
   min-height: 100vh;
-  padding: 32px 16px 16px;
+  padding: 48px 16px 16px;
   max-width: 100vw;
   overflow-x: hidden;
 }
 
 .app-header {
   max-width: 640px;
-  margin: 0 auto 24px;
+  margin: 0 auto 32px;
   display: flex;
   justify-content: space-between;
   align-items: center;
